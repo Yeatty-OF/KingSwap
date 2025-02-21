@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pug Mobile Mağazası</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #121212;
+            color: white;
+        }
+
+        .header {
+            background-color: #1e1e1e;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffcc00;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 20px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .product {
+            background-color: #222;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            transition: 0.3s;
+            border: 2px solid #ffcc00;
+        }
+
+        .product:hover {
+            background-color: #333;
+        }
+
+        .product iframe {
+            width: 100%;
+            height: 200px;
+            border-radius: 5px;
+        }
+
+        .product img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .product .price {
+            margin: 10px 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffcc00;
+        }
+
+        .product p {
+            color: #bbb;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .buy-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background-color: #ffcc00;
+            color: #222;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .buy-btn:hover {
+            background-color: #e6b800;
+        }
+
+        .top-left {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffcc00;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Text at the top-left -->
+    <div class="top-left"> 𝐈𝐎𝐒 - 𝐘𝐞𝐚𝐭𝐭𝐲 ™</div>
+
+    <div class="header">Pug Mobile Mağazası</div>
+
+    <div class="container">
+        <!-- Ürün 1 -->
+        <div class="product">
+            <iframe src="https://drive.google.com/file/d/1il0FwbOFQ8MGQUZHm7BgINVLi5ctCSKi/preview" allowfullscreen></iframe>
+            <p class="price">₺16.000</p>
+            <p><strong>S4 FULL ✅</strong></p>
+            <p>130 DESTANSI ÖĞE</p>
+            <p>GELİNLİK, İTFAİYE, KOMUTAN, ORMAN ELF</p>
+            <p>39 SİLAH, 18 KİLL MESAJ</p>
+            <p>4X 7 LV ‼️</p>
+            <p>SPOR ARAÇLAR 4X</p>
+            <p><strong>BAĞLANTI: TWİTTER ✅✅</strong></p>
+            <a href="https://t.me/ios_yeatty" class="buy-btn">Satın Al</a>
+        </div>
+
+        <!-- Ürün 2 -->
+        <div class="product">
+            <iframe src="https://drive.google.com/file/d/1dCU8tcGdbxcthWykYjcRfXXUzwslBvme/preview" allowfullscreen></iframe>
+            <p class="price">₺11.000</p>
+            <p>75 Destansı Öğe</p>
+            <p>Dikenli Kask ‼️</p>
+            <p>Beyaz Mumya, Sarı Mumya, Kış Kraliçesi</p>
+            <p>23 Silah 💣</p>
+            <p>Spor Araçlar 3x</p>
+            <p><strong>Bağlar: Tw - Eposta ✅✅</strong></p>
+            <a href="https://t.me/ios_yeatty" class="buy-btn">Satın Al</a>
+        </div>
+
+        <!-- Ürün 3 -->
+        <div class="product">
+            <iframe src="https://drive.google.com/file/d/1euPlPMpXNJYbs8cDVukvFNZXyoean2tQ/preview" allowfullscreen></iframe>
+            <p class="price">₺8.600</p>
+            <p>90 DESTANSI ÖGE (TREND HESAP)</p>
+            <p>ÖLÜM MAKİNASI SETİ, AKÜLÜ ZIRH SETİ</p>
+            <p>PİZZACI SETİ, TEKKEN SETLERİ X2</p>
+            <p>NİHAİ SET EMOJİLERİ X5</p>
+            <p>LAMBO SİYAH SPOR ARAC</p>
+            <p>BUZ M416 7 LV MAXX</p>
+            <p>ŞEKER THAMPSON 4 LV, MİDİLLİ M762 4 LV</p>
+            <p>GECE GROZA 4 LV, DİNGİN SCARL 4 LV</p>
+            <p>YILDIZ AKM 3 LV, DENİZ UMP MAXXX</p>
+            <p>GECE BİZON MAXXX</p>
+            <p>S4 SAÇ - SAKAL, DESTANSI PET</p>
+            <p>FATİH ÇERÇEVESİ, TDM KOMBİNLERİ VE DAHA FAZLASI</p>
+            <p>TERTEMİZ BAGLANTI (İLK GELEN ALIR)</p>
+            <a href="https://t.me/ios_yeatty" class="buy-btn">Satın Al</a>
+        </div>
+
+        <!-- Ürün 4 -->
+        <div class="product">
+            <iframe src="https://drive.google.com/file/d/1b3Ja4fNe7f4LzQN1NGPP5ViB71pEm8r6/preview" allowfullscreen></iframe>
+            <p class="price">₺37.000</p>
+            <p>120 Destansı TREND 💣</p>
+            <p>S19 Fatih ‼️</p>
+            <p>84 Sv ‼️</p>
+            <p>S5 Açık ✅</p>
+            <p>Altın Firavun Max ‼️</p>
+            <p>Çığ Zırh Max ‼️</p>
+            <p>Full Tdm Kombinler 🔥</p>
+            <p>Sarı Basketbol ‼️</p>
+            <p>Casus Üst, FreeStyle, Çita Seti</p>
+            <p>Ghidorah T-Shirt, Godzilla T-Shirt</p>
+            <p>Yedi Denizler, Vampir Set, Sarı Mumya</p>
+            <p>56 Silah, 25 Kill Mesaj</p>
+            <p>4X Red ‼️</p>
+            <p>Spor Araçlar 2x</p>
+            <p><strong>Bağlar: Facebook - Mail ✅✅</strong></p>
+            <a href="https://t.me/ios_yeatty" class="buy-btn">Satın Al</a>
+        </div>
+    </div>
+
+</body>
+</html>
