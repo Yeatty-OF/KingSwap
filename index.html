@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Exchange</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .swap-container {
+            margin-bottom: 40px;
+        }
+        .crypto-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        .crypto-box {
+            width: 80%;
+            max-width: 400px;
+            background: #1E1E1E;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+        .crypto-box img {
+            width: 30px;
+            height: 30px;
+        }
+        .crypto-name {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .crypto-price {
+            font-size: 16px;
+        }
+        .crypto-change {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .green { color: #00C853; }
+        .red { color: #D50000; }
+        .swap-box {
+            background: #1E1E1E;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .swap-box select,
+        .swap-box input {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #333;
+            background: #121212;
+            color: white;
+            width: 100%;
+        }
+        .swap-box button {
+            padding: 15px;
+            background-color: #FF9800;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .swap-box button:hover {
+            background-color: #FF5722;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Crypto Exchange</h1>
+
+    <!-- Swap UI -->
+    <div class="swap-container">
+        <div class="swap-box">
+            <h2>Swap Cryptocurrency</h2>
+            <label for="from-crypto">From</label>
+            <select id="from-crypto" onchange="checkSameCrypto()">
+                <!-- Dynamically filled dropdown -->
+            </select>
+
+            <label for="to-crypto">To</label>
+            <select id="to-crypto" onchange="checkSameCrypto()">
+                <!-- Dynamically filled dropdown -->
+            </select>
+
+            <label for="amount">Amount</label>
+            <input type="number" id="amount" placeholder="Enter amount" />
+
+            <button onclick="calculateSwap()">Swap</button>
+
+            <div id="swap-result"></div>
+        </div>
+    </div>
+
+    <!-- Crypto Prices -->
+    <h2>Live Crypto Prices</h2>
+    <div class="crypto-container" id="crypto-list">
+        <!-- Crypto prices will load here dynamically -->
+    </div>
+
+    <script>
+        let cryptoList = [];
+
+        async function fetchCryptoPrices() {
+            const response = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=30&page=1&sparkline=false');
+            const data = await response.json();
+            cryptoList = data;
+            const container = document.getElementById('crypto-list');
+            container.innerHTML = '';
+
+            // Fill the dropdowns
+            const fromSelect = document.getElementById('from-crypto');
+            const toSelect = document.getElementById('to-crypto');
+
+            fromSelect.innerHTML = '';
+            toSelect.innerHTML = '';
+
+            // Add options to the dropdowns dynamically
+            data.forEach(crypto => {
+                const option = `<option value="${crypto.id}">${crypto.name}</option>`;
+                fromSelect.innerHTML += option;
+                toSelect.innerHTML += option;
+            });
+
+            // Update the crypto prices list
+            data.forEach(crypto => {
+                const priceChange = crypto.price_change_percentage_24h.toFixed(2);
+                const changeColor = priceChange >= 0 ? 'green' : 'red';
+
+                const cryptoElement = `
+                    <div class="crypto-box">
+                        <img src="${crypto.image}" alt="${crypto.name}">
+                        <div class="crypto-name">${crypto.name}</div>
+                        <div class="crypto-price">$${crypto.current_price.toLocaleString()}</div>
+                        <div class="crypto-change ${changeColor}">${priceChange}%</div>
+                    </div>
+                `;
+                container.innerHTML += cryptoElement;
+            });
+        }
+
+        function calculateSwap() {
+            const fromCrypto = document.getElementById('from-crypto').value;
+            const toCrypto = document.getElementById('to-crypto').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+
+            if (isNaN(amount) || amount <= 0) {
+                document.getElementById('swap-result').innerHTML = 'Please enter a valid amount.';
+                return;
+            }
+
+            // Get selected crypto prices
+            const fromPrice = getCryptoPrice(fromCrypto);
+            const toPrice = getCryptoPrice(toCrypto);
+
+            const swappedAmount = (amount * fromPrice) / toPrice;
+            const fee = swappedAmount * 0.02; // 2% fee for service
+            const finalAmount = swappedAmount - fee;
+
+            document.getElementById('swap-result').innerHTML = `
+                <p>Swapping ${amount} ${fromCrypto.toUpperCase()} to ${toCrypto.toUpperCase()}:</p>
+                <p>Initial Amount: ${swappedAmount.toFixed(6)} ${toCrypto.toUpperCase()}</p>
+                <p>Service Fee (2%): -${fee.toFixed(6)} ${toCrypto.toUpperCase()}</p>
+                <p><strong>Final Amount: ${finalAmount.toFixed(6)} ${toCrypto.toUpperCase()}</strong></p>
+            `;
+        }
+
+        // Get the price of a selected crypto from the list
+        function getCryptoPrice(cryptoId) {
+            const crypto = cryptoList.find(c => c.id === cryptoId);
+            return crypto ? crypto.current_price : 0;
+        }
+
+        function checkSameCrypto() {
+            const fromCrypto = document.getElementById('from-crypto').value;
+            const toCrypto = document.getElementById('to-crypto').value;
+
+            if (fromCrypto === toCrypto) {
+                alert("You cannot swap the same cryptocurrency. Please choose different cryptocurrencies.");
+                document.getElementById('to-crypto').value = cryptoList[1].id; // Reset to a valid default option
+            }
+        }
+
+        fetchCryptoPrices();
+        setInterval(fetchCryptoPrices, 5000); // Update every 5 seconds
+    </script>
+
+</body>
+</html>
